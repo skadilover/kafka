@@ -28,6 +28,7 @@ import kafka.serializer._
 import kafka.utils._
 import kafka.metrics.KafkaMetricsReporter
 import kafka.consumer.{Blacklist,Whitelist,ConsumerConfig,Consumer}
+import org.apache.log4j.Logger
 
 /**
  * Consumer that dumps messages out to standard out.
@@ -240,6 +241,15 @@ class DefaultMessageFormatter extends MessageFormatter {
     }
     output.write(if (value == null) "null".getBytes() else value)
     output.write(lineSeparator)
+  }
+}
+
+class YaMessageFormatter extends MessageFormatter   {
+  val logger = Logger.getLogger("YMT_YA")
+  override def init(props: Properties) {}
+  def writeTo(key: Array[Byte], value: Array[Byte], output: PrintStream){
+    if(logger.isInfoEnabled)
+      logger.info(s"key:${if (key == null) "null" else new String(key)}, value:${if (value == null) "null" else new String(value)}")
   }
 }
 
