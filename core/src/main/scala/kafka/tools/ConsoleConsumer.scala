@@ -377,6 +377,16 @@ class LoggingMessageFormatter extends MessageFormatter   {
   }
 }
 
+class YaMessageFormatter extends MessageFormatter   {
+  private val defaultWriter: DefaultMessageFormatter = new DefaultMessageFormatter
+  val logger = Logger.getLogger("YMT_YA")
+
+  def writeTo(key: Array[Byte], value: Array[Byte], output: PrintStream): Unit = {
+    if(logger.isInfoEnabled)
+      logger.info(s"key:${if (key == null) "null" else new String(key)}, value:${if (value == null) "null" else new String(value)}")
+  }
+}
+
 class NoOpMessageFormatter extends MessageFormatter {
   override def init(props: Properties) {}
 
